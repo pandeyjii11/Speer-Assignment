@@ -19,7 +19,7 @@ A brief description of your Node.js backend project.
 
 ### Hosting
 
-The app is hosted on [Cyclic](https://render.com/) and the base url is <https://speer-assignment.onrender.com>
+The app is hosted on [Render](https://render.com/) and the base url is <https://speer-assignment.onrender.com>
 
 ### Prerequisites
 
@@ -49,8 +49,9 @@ These are the prerequisites that need to be installed before setting up the proj
 1. Copy the sample configuration and configure it:
 
    ```bash
-   PORT=8000
-   JWT_SECRET=auth-key
+    PORT = 4000
+    DATABASE_URL = **Your MongoDB URL**
+    jwt_secret = **Auth-Key**
    ```
 
 create and update the .env file with your specific configuration details.
@@ -62,27 +63,29 @@ create and update the .env file with your specific configuration details.
 start the server:
 
    ```bash
-   npm start
+   npm run start
    ```
 
    or if you are in development mode, use this
 
    ```bash
-   npm dev
+   npm run dev
    ```
 
 ### API Endpoints
 
 Document the available API endpoints, their methods, and expected responses. For example:
 
-- POST /api/v0.1/login: login and authenticate user
-- POST /api/v0.1/register: register or create a new user
-- GET /api/v0.1/posts: Get all the posts
-- GET /api/v0.1/todos: Get all the todos
-- GET /api/v0.1/posts/comments: Get all the comments of a post
-- GET /api/v0.1/users: Get all the users
+- POST /api/auth/signup: signup and create account
+- POST /api/auth/login: login and authenticate user
+- GET /api/notes: Get all the notes of the authenticated user
+- GET /api/notes/:id: Get note by id for the authenticated user
+- POST /api/notes: Create a new note for the authenticated user
+- PUT /api/notes/:id: update an existing note for the authenticated user
+- DELETE /api/notes/:id: Delete note for the authenticated user
+- POST /api/notes/:id/share: Share the note with another user
+- GET /api/search?q=:query: Seacrh the notes based on keywords using text indexing
 
-All the data is dummy and coming from [JSONPlaceHolder API](https://jsonplaceholder.typicode.com/)
 
 ## Contributing
 
@@ -127,9 +130,9 @@ All the data is dummy and coming from [JSONPlaceHolder API](https://jsonplacehol
 
 If you have any questions, suggestions, or just want to say hello, feel free to contact the developer:
 
-- **Developer Name**: Subrata Rajak
-- **Email**: <subratarajak956@gmail.com>
-- **LinkedIn**: [Subrata Rajak](https://www.linkedin.com/in/subrata-connect/)
+- **Developer Name**: Nitish Pandey
+- **Email**: <nitish15cse@gmail.com>
+- **LinkedIn**: [Nitish Pandey](https://www.linkedin.com/in/nitish-pandey-474442201/)
 
 Feel free to open an issue on the repository for bug reports, feature requests, or general feedback. Pull requests are also welcome!
 

@@ -19,7 +19,7 @@ A brief description of your Node.js backend project.
 
 ### Hosting
 
-The app is hosted on [Cyclic](https://www.cyclic.sh/) and the base url is <https://ill-ruby-stingray-kit.cyclic.app>
+The app is hosted on [Cyclic](https://render.com/) and the base url is <https://speer-assignment.onrender.com>
 
 ### Prerequisites
 

@@ -27,7 +27,7 @@ router.delete("/notes/:id", auth, deleteNote);
 router.post("/notes/:id/share", auth, shareNotes);
 
 // Search the notes based on keuwords using text indexing
-router.get("/seacrh?q=:query", auth, searchNote);
+router.get("/seacrh", auth, searchNote);
 
 
 // Export router

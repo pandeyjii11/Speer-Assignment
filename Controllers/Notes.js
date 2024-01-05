@@ -438,8 +438,11 @@ exports.searchNote = async(req, res) => {
         const userId = req.user.id;
         const {q} = req.query;
 
+        console.log(userId);
+        console.log(q);
+
         // Validate data
-        if(!userId || q) {
+        if(!userId || !q) {
             return res.status(400).json(
                 {
                     success: false,
@@ -448,14 +451,14 @@ exports.searchNote = async(req, res) => {
             );
         }
 
-        const searchResult = await Notes.find({$text: {$search: q}, userId}).exec();
+        const searchResults = await Notes.find({$text: {$search: q}, userId: userId}).exec();
 
         // Send json response
         res.status(200).json(
             {
                 success: true,
                 message: "Successfully fetched  all the search results",
-                searchResult: searchResult,
+                searchResults: searchResults,
             }
         );
     }

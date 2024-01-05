@@ -27,7 +27,7 @@ const notesSchema = new mongoose.Schema(
 
 notesSchema.index(
     {
-        title: 'text',
+        heading: 'text',
         description: 'text'
     }
 );

@@ -86,9 +86,11 @@ exports.getNotedById = async(req, res) => {
         const notes = user.notes;
         var index=-1;
 
+        console.log(notesId);
         for(let i=0;i<notes.length;i++)
         {
-            if(notesId === notes[i]._id)
+            console.log(notes[i]._id);
+            if(notesId == notes[i]._id)
             {
                 index=i;
                 break;
@@ -105,12 +107,14 @@ exports.getNotedById = async(req, res) => {
             );
         }
 
+        const note = await Notes.findById(notes[index]);
+
         // send a json reponse
         res.status(200).json(
             {
                 success: true,
                 message: "Note found",
-                notes: notes[index],
+                notes: note,
             }
         );
     }
@@ -132,7 +136,7 @@ exports.createNote = async(req, res) => {
     try {
         // fetch Data
         const {heading, description} = req.body;
-        const userId = req.user;
+        const userId = req.user.id;
 
         // Validate data
         if(!heading || !description || !userId) {
@@ -186,7 +190,7 @@ exports.createNote = async(req, res) => {
                 success: true,
                 message: "Note created sucessfully",
                 notes: notes,
-                updatedUser, user,
+                updatedUser: user,
             }
         );
     }
@@ -222,7 +226,7 @@ exports.updateNote = async(req, res) => {
         }
 
         // Find the note
-        const note = await Notes.findById(notesId);
+        const note = await Notes.findById(notedId);
 
         if(!note) {
             return res.status(404).json(
@@ -233,11 +237,13 @@ exports.updateNote = async(req, res) => {
             );
         }
 
-        if(!heading) {
+        // console.log(heading);
+
+        if(heading) {
             note.heading=heading;
         }
 
-        if(!description) {
+        if(description) {
             note.description=description;
         }
 
@@ -269,7 +275,7 @@ exports.deleteNote = async(req, res) => {
     try {
         // fetch data
         const notesId = req.params.id;
-        const user = req.user.id;
+        const userId = req.user.id;
         
         // Validate data
         if(!userId || !notesId) {
@@ -282,7 +288,7 @@ exports.deleteNote = async(req, res) => {
         }
 
         // Find the note
-        const note = await Notes.findById(notesId);
+        const note = await Notes.findByIdAndDelete(notesId);
 
         if(!note) {
             return res.status(404).json(
@@ -296,7 +302,7 @@ exports.deleteNote = async(req, res) => {
         const userList = note.userList;
         for(let i=0;i<userList.length;i++)
         {
-            const user = await user.findByIdAndUpdate(
+            const user = await User.findByIdAndUpdate(
                 {
                     _id: userList[i],
                 },
@@ -349,8 +355,22 @@ exports.shareNotes = async(req, res) => {
             );
         }
 
+        console.log(notesId);
+
         // Find the note to be shared
-        const note = await Notes.findById(notesId);
+        const note = await Notes.findByIdAndUpdate(
+            {
+                _id: notesId,
+            },
+            {
+                $push: {
+                    userList: receiverUserId,
+                }
+            },
+            {
+                new: true,
+            }
+        );
 
         if(!note) {
             return res.status(404).json(
@@ -386,7 +406,7 @@ exports.shareNotes = async(req, res) => {
         }
 
         // Update the userList in the notes
-        note.userList.push(receiverUserId);
+        // note.userList.push(receiverUserId);
 
         // Send a json response
         res.status(200).json(

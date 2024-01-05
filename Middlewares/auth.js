@@ -5,7 +5,11 @@ require("dotenv").config();
 exports.auth = async(req, res, next) => {
     try {
         // fetc token
-        const token = req.ccokies.token || req.header("Authorization").replace("Bearer ", "");
+        const token = req.cookies.token || req.header("Authorization").replace("Bearer ", "");
+
+
+        // console.log("Here");
+        // console.log("Token in auth in middleware: ", token);
 
         if(!token) {
             return res.status(404).json(
